@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Math Rain - Mr. Black</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #1e293b, #4338ca); color: white; min-height: 100vh; text-align: center; overflow: hidden; }
+        .nav-header { text-align: left; padding: 20px; position: relative; z-index: 10; }
+        .home-btn { text-decoration: none; background: white; color: #4338ca; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
+        
+        /* Jukebox Styling */
+        .music-card { background: rgba(30, 41, 59, 0.9); padding: 15px; border-radius: 20px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.2); }
+        .song-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+        .song-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 5px 2px; border-radius: 4px; cursor: pointer; font-size: 0.65rem; }
+        
+        /* Game Area */
+        #game-setup { background: white; color: #1e293b; padding: 30px; border-radius: 20px; max-width: 500px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #game-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        #input-box { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); z-index: 100; display: none; }
+        input { padding: 15px; border: 3px solid #4338ca; border-radius: 12px; font-size: 2rem; width: 200px; text-align: center; box-shadow: 0 0 20px rgba(67, 56, 202, 0.5); }
+        
+        .mode-btn { background: #4338ca; color: white; border: none; padding: 15px 25px; margin: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.1rem; width: 80%; }
+        .mode-btn:hover { background: #3730a3; transform: scale(1.05); }
+        
+        .score-board { position: fixed; top: 80px; right: 20px; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #4338ca; }
+        .math-problem { position: absolute; background: white; color: #1e293b; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 1.4rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 2px solid #4338ca; }
+    </style>
+</head>
+<body>
+    <div class="nav-header"><a href="index.html" class="home-btn">🏠 HOME</a></div>
+    
+    <div class="container">
+        <div class="music-card">
+            <div class="song-grid">
+                <button class="song-btn" onclick="play('47b2f7ff-f1e3-4986-85ab-97338cd3498b')">Bridge</button>
+                <button class="song-btn" onclick="play('61c91f78-3939-43f5-8f3c-ccd91ff8b5be')">Four</button>
+                <button class="song-btn" onclick="play('4282a1af-2643-4b56-ac82-df7d3a9aba6d')">Kaleid</button>
+                <button class="song-btn" onclick="play('ea4d0635-52e6-4093-b778-1473a71e4955')">Water</button>
+                <button class="song-btn" onclick="play('030ef937-79a4-40c1-9abe-cfc476de6394')">Light</button>
+                <button class="song-btn" onclick="play('520371ca-47c7-43ac-9ae4-62db0453c7c9')">Next</button>
+                <button class="song-btn" onclick="play('399f28e5-3306-4487-96b0-387e8bf510e9')">Truth</button>
+                <button class="song-btn" onclick="play('0cbcc357-3cad-4bba-8fc9-863f260b0f75')">Chef</button>
+                <button class="song-btn" onclick="play('c6da2095-d224-4847-a662-f4c4cc982d39')">Craze</button>
+                <button class="song-btn" onclick="play('f45e3a38-cb2d-4bd1-9208-af8e8ff8637e')">Man</button>
+                <button class="song-btn" onclick="play('507de0a4-6912-45ae-801e-b7c62ba9e439')">Clap</button>
+                <button class="song-btn" onclick="play('528ad8cd-4832-4c82-8143-fddb4e4d62ea')">Herp</button>
+                <button class="song-btn" onclick="play('dc24bb02-998e-4178-aa51-5d4cdcfa0c92')">Quest</button>
+                <button class="song-btn" onclick="play('5c4b035c-168a-4b26-896f-0d33f19d6f5a')">Fun</button>
+                <button class="song-btn" onclick="play('1591ce81-8223-4879-8b8d-deb40bcd62f7')">SIMP</button>
+                <button class="song-btn" onclick="play('c9bc732a-3b25-4ece-a0af-852647174bc4')">Delus</button>
+                <button class="song-btn" onclick="play('1cbf18d4-ec23-494c-a3b6-0019fdb466e0')">Bang</button>
+                <button class="song-btn" onclick="play('150d1923-d2a2-432a-9523-b37d18a5e40b')">Eyes</button>
+                <button class="song-btn" onclick="play('76fc8a34-d416-407a-9cc0-a711f35986f1')">PeePee</button>
+                <button class="song-btn" onclick="play('e665a160-0dc2-45ec-857c-8a3821c92db9')">Unity</button>
+            </div>
+        </div>
+
+        <div id="game-setup">
+            <h2 style="margin-top:0;">🌩️ Math Rain</h2>
+            <p>Choose your mode and type the answers before the problems hit the bottom!</p>
+            <button class="mode-btn" onclick="startGame('mult')">✖️ Multiplication (1-12)</button>
+            <button class="mode-btn" onclick="startGame('int')">➕ Integers (-10 to 10)</button>
+            <button class="mode-btn" onclick="startGame('mixed')">🔥 Mixed Operations</button>
+        </div>
+    </div>
+
+    <div class="score-board">
+        Score: <span id="score">0</span> | Lives: <span id="lives">3</span>
+    </div>
+
+    <div id="input-box">
+        <input type="number" id="player-answer" placeholder="?" autofocus>
+    </div>
+
+    <div id="game-container"></div>
+
+    <script>
+        let score = 0;
+        let lives = 3;
+        let gameActive = false;
+        let gameMode = '';
+        let fallingProblems = [];
+        let speed = 1.5;
+        let spawnRate = 2000;
+        let musicWindow = null;
+
+        function play(id) {
+            const url = "https://suno.com/song/" + id;
+            if (musicWindow && !musicWindow.closed) { musicWindow.location.href = url; } 
+            else { musicWindow = window.open(url, "MathPlayer", "width=500,height=700"); }
+            musicWindow.focus();
+        }
+
+        function startGame(mode) {
+            gameMode = mode;
+            gameActive = true;
+            score = 0;
+            lives = 3;
+            speed = 1.5;
+            document.getElementById('game-setup').style.display = 'none';
+            document.getElementById('input-box').style.display = 'block';
+            document.getElementById('player-answer').focus();
+            updateStats();
+            spawnProblem();
+            animate();
+        }
+
+        function generateProblem() {
+            let q, a;
+            if (gameMode === 'mult') {
+                let n1 = Math.floor(Math.random() * 12) + 1;
+                let n2 = Math.floor(Math.random() * 12) + 1;
+                q = `${n1} × ${n2}`;
+                a = n1 * n2;
+            } else if (gameMode === 'int') {
+                let n1 = Math.floor(Math.random() * 21) - 10;
+                let n2 = Math.floor(Math.random() * 21) - 10;
+                q = `${n1} + (${n2})`;
+                a = n1 + n2;
+            } else {
+                const ops = ['+', '-', '×'];
+                let op = ops[Math.floor(Math.random() * ops.length)];
+                let n1 = Math.floor(Math.random() * 15) + 1;
+                let n2 = Math.floor(Math.random() * 15) + 1;
+                if (op === '+') { q = `${n1} + ${n2}`; a = n1 + n2; }
+                if (op === '-') { q = `${n1} - ${n2}`; a = n1 - n2; }
+                if (op === '×') { q = `${n1} × ${n2}`; a = n1 * n2; }
+            }
+            return { q, a };
+        }
+
+        function spawnProblem() {
+            if (!gameActive) return;
+            const prob = generateProblem();
+            const div = document.createElement('div');
+            div.className = 'math-problem';
+            div.innerText = prob.q;
+            div.style.left = (Math.random() * (window.innerWidth - 150) + 50) + 'px';
+            div.style.top = '-50px';
+            document.getElementById('game-container').appendChild(div);
+            
+            fallingProblems.push({
+                element: div,
+                answer: prob.a,
+                top: -50
+            });
+
+            setTimeout(spawnProblem, Math.max(800, spawnRate - (score * 10)));
+        }
+
+        function animate() {
+            if (!gameActive) return;
+            
+            for (let i = fallingProblems.length - 1; i >= 0; i--) {
+                let p = fallingProblems[i];
+                p.top += speed + (score * 0.05);
+                p.element.style.top = p.top + 'px';
+
+                if (p.top > window.innerHeight - 100) {
+                    lives--;
+                    p.element.remove();
+                    fallingProblems.splice(i, 1);
+                    updateStats();
+                    if (lives <= 0) gameOver();
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        document.getElementById('player-answer').addEventListener('input', function(e) {
+            const val = parseInt(e.target.value);
+            for (let i = 0; i < fallingProblems.length; i++) {
+                if (fallingProblems[i].answer === val) {
+                    score += 10;
+                    fallingProblems[i].element.style.background = "#22c55e";
+                    fallingProblems[i].element.style.color = "white";
+                    const el = fallingProblems[i].element;
+                    setTimeout(() => el.remove(), 100);
+                    fallingProblems.splice(i, 1);
+                    e.target.value = '';
+                    updateStats();
+                    break;
+                }
+            }
+        });
+
+        function updateStats() {
+            document.getElementById('score').innerText = score;
+            document.getElementById('lives').innerText = lives;
+        }
+
+        function gameOver() {
+            gameActive = false;
+            alert("Game Over! Your Score: " + score);
+            location.reload();
+        }
+    </script>
+</body>
+</html>
