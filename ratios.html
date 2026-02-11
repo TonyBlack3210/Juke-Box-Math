@@ -1,57 +1,137 @@
-<script>
-    let prob = {};
-    const face = document.getElementById('teacher-face');
-
-    function generate() {
-        face.src = "mr-black-thinking.jpg";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ratio Rancher - Mr. Black</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #f59e0b, #1e293b); color: white; min-height: 100vh; text-align: center; }
+        .nav-header { text-align: left; padding: 20px; }
+        .home-btn { text-decoration: none; background: white; color: #f59e0b; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
+        .reaction-box { margin-bottom: 15px; }
+        .teacher-img { width: 150px; height: 150px; border-radius: 50%; border: 4px solid white; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); margin-top: 20px; position: relative; }
+        .problem-area { background: #fffbeb; padding: 25px; border-radius: 15px; border-left: 10px solid #f59e0b; margin-bottom: 20px; }
+        input { padding: 15px; width: 100px; font-size: 1.4rem; border: 2px solid #ddd; border-radius: 10px; text-align: center; margin: 0 10px; }
+        .btn { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; background: #f59e0b; color: white; font-size: 1.1rem; margin: 10px 5px; }
+        .feedback { margin-top: 20px; font-size: 1.4rem; font-weight: bold; min-height: 1.6em; }
         
-        // Randomly pick cat/dog ratio
-        const r1 = Math.floor(Math.random() * 4) + 2; 
-        const r2 = Math.floor(Math.random() * 4) + 2; 
-        const mult = Math.floor(Math.random() * 8) + 3; 
-        
-        // Decide which "type" of question to ask (0 = Total, 1 = Partner)
-        const qType = Math.floor(Math.random() * 2);
-        
-        prob = { r1, r2, mult, type: qType };
-
-        const questionBox = document.getElementById('question-text');
-
-        if (qType === 0) {
-            // Type 0: The "Total" question you already have
-            const total = (r1 + r2) * mult;
-            prob.targetCats = r1 * mult;
-            prob.targetDogs = r2 * mult;
-            questionBox.innerHTML = `If there are <b>${r1} cats</b> for every <b>${r2} dogs</b>, and there are <b>${total} total animals</b>... <br>How many are cats and how many are dogs?`;
-        } else {
-            // Type 1: The "Partner" question (If there are 24 cats...)
-            const givenCats = r1 * mult;
-            prob.targetCats = givenCats;
-            prob.targetDogs = r2 * mult;
-            questionBox.innerHTML = `The ratio of cats to dogs is <b>${r1} to ${r2}</b>. <br>If there are <b>${givenCats} cats</b>, how many dogs are there?`;
+        /* Explanation Tab Styling */
+        #explanation-tab { 
+            display: none; 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: #e2e8f0; 
+            border-radius: 10px; 
+            text-align: left; 
+            color: #1e293b;
+            border-left: 5px solid #3b82f6;
         }
-        
-        document.getElementById('feedback').innerText = "";
-        document.getElementById('ans-cats').value = "";
-        document.getElementById('ans-dogs').value = "";
-    }
+        .help-btn { background: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="nav-header"><a href="index.html" class="home-btn">🏠 RETURN TO HOME</a></div>
+    
+    <div class="container">
+        <div class="card">
+            <div class="reaction-box">
+                <img id="teacher-face" src="mr-black-thinking.jpg" alt="Mr. Black" class="teacher-img">
+            </div>
 
-    function check() {
-        const c = document.getElementById('ans-cats').value;
-        const d = document.getElementById('ans-dogs').value;
-        const feed = document.getElementById('feedback');
-        
-        if (parseInt(c) === prob.targetCats && parseInt(d) === prob.targetDogs) {
-            feed.innerText = "✅ Excellent work! You nailed the ratio.";
-            feed.style.color = "green";
-            face.src = "mr-black-happy.jpg";
-            setTimeout(generate, 3500);
-        } else {
-            feed.innerText = "❌ Not quite. Remember to find the multiplier first!";
-            feed.style.color = "red";
+            <h1>🤠 Ratio Rancher</h1>
+            <div class="problem-area">
+                <div id="question-text">Generating challenge...</div>
+            </div>
+
+            <div class="input-group">
+                🐈 Cats: <input type="number" id="ans-cats"> 
+                🐕 Dogs: <input type="number" id="ans-dogs">
+            </div>
+
+            <br>
+            <button class="btn" onclick="check()">Submit Order</button>
+            <button class="btn help-btn" onclick="toggleHelp()">💡 Need an Explanation?</button>
+            <button class="btn" style="background: #94a3b8;" onclick="generate()">New Challenge</button>
+            
+            <div id="feedback" class="feedback"></div>
+
+            <div id="explanation-tab">
+                <h3>🔍 Solving with the C.O.P.</h3>
+                <div id="explanation-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let prob = {};
+        const face = document.getElementById('teacher-face');
+        const helpTab = document.getElementById('explanation-tab');
+
+        function toggleHelp() {
+            helpTab.style.display = helpTab.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function generate() {
             face.src = "mr-black-thinking.jpg";
-        }
-    }
+            helpTab.style.display = 'none'; // Hide help for new problem
+            
+            const r1 = Math.floor(Math.random() * 4) + 2; 
+            const r2 = Math.floor(Math.random() * 4) + 2; 
+            const cop = Math.floor(Math.random() * 8) + 3; 
+            const qType = Math.floor(Math.random() * 2);
+            
+            prob = { r1, r2, cop, type: qType };
+            const questionBox = document.getElementById('question-text');
+            const explainBox = document.getElementById('explanation-content');
 
-    window.onload = generate;
-</script>
+            if (qType === 0) {
+                const total = (r1 + r2) * cop;
+                prob.targetCats = r1 * cop;
+                prob.targetDogs = r2 * cop;
+                questionBox.innerHTML = `If there are <b>${r1} cats</b> for every <b>${r2} dogs</b>, and there are <b>${total} total animals</b>... <br>How many are cats and how many are dogs?`;
+                
+                explainBox.innerHTML = `
+                    1. First, find the "Group Size": <b>${r1} + ${r2} = ${r1+r2}</b> animals per group.<br>
+                    2. Divide the total animals by the group size to find the <b>C.O.P.</b>: <b>${total} ÷ ${r1+r2} = ${cop}</b>.<br>
+                    3. Multiply both parts of the ratio by the C.O.P. (${cop}) to get your answers!
+                `;
+            } else {
+                const givenCats = r1 * cop;
+                prob.targetCats = givenCats;
+                prob.targetDogs = r2 * cop;
+                questionBox.innerHTML = `The ratio of cats to dogs is <b>${r1} to ${r2}</b>. <br>If there are <b>${givenCats} cats</b>, how many dogs are there?`;
+                
+                explainBox.innerHTML = `
+                    1. We know there are ${givenCats} cats and the original ratio part is ${r1}.<br>
+                    2. Divide to find the <b>C.O.P.</b> (Constant of Proportionality): <b>${givenCats} ÷ ${r1} = ${cop}</b>.<br>
+                    3. Since the C.O.P is <b>${cop}</b>, multiply the dogs ratio (${r2}) by ${cop} to find the missing number!
+                `;
+            }
+            
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('ans-cats').value = "";
+            document.getElementById('ans-dogs').value = "";
+        }
+
+        function check() {
+            const c = document.getElementById('ans-cats').value;
+            const d = document.getElementById('ans-dogs').value;
+            const feed = document.getElementById('feedback');
+            
+            if (parseInt(c) === prob.targetCats && parseInt(d) === prob.targetDogs) {
+                feed.innerText = "✅ Excellent! You used the C.O.P. perfectly.";
+                feed.style.color = "green";
+                face.src = "mr-black-happy.jpg";
+                setTimeout(generate, 5000);
+            } else {
+                feed.innerText = "❌ Not quite. Click the blue button to see how the C.O.P. works!";
+                feed.style.color = "red";
+                face.src = "mr-black-thinking.jpg";
+            }
+        }
+
+        window.onload = generate;
+    </script>
+</body>
+</html>
