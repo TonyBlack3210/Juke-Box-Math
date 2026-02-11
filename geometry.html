@@ -35,4 +35,84 @@
                 <button class="song-btn" onclick="play('0cbcc357-3cad-4bba-8fc9-863f260b0f75')">Chef Killer</button>
                 <button class="song-btn" onclick="play('c6da2095-d224-4847-a662-f4c4cc982d39')">You Da Craze</button>
                 <button class="song-btn" onclick="play('f45e3a38-cb2d-4bd1-9208-af8e8ff8637e')">Type of Man</button>
-                <button class="song-btn" onclick="play('507de0a4-6912-45ae-801e-b7c62ba9e439')">
+                <button class="song-btn" onclick="play('507de0a4-6912-45ae-801e-b7c62ba9e439')">Rhyme & Clap</button>
+                <button class="song-btn" onclick="play('528ad8cd-4832-4c82-8143-fddb4e4d62ea')">Herpes</button>
+                <button class="song-btn" onclick="play('dc24bb02-998e-4178-aa51-5d4cdcfa0c92')">Questions</button>
+                <button class="song-btn" onclick="play('5c4b035c-168a-4b26-896f-0d33f19d6f5a')">Fun With You</button>
+                <button class="song-btn" onclick="play('1591ce81-8223-4879-8b8d-deb40bcd62f7')">SIMP v3</button>
+                <button class="song-btn" onclick="play('c9bc732a-3b25-4ece-a0af-852647174bc4')">Delusional</button>
+                <button class="song-btn" onclick="play('1cbf18d4-ec23-494c-a3b6-0019fdb466e0')">Chitty Bang</button>
+                <button class="song-btn" onclick="play('150d1923-d2a2-432a-9523-b37d18a5e40b')">Eyes to Mtn</button>
+                <button class="song-btn" onclick="play('76fc8a34-d416-407a-9cc0-a711f35986f1')">Pee-Pee Girl</button>
+                <button class="song-btn" onclick="play('e665a160-0dc2-45ec-857c-8a3821c92db9')">Unity</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h1>Geometry Practice</h1>
+            <div id="question" class="question-box">Loading...</div>
+            <input type="text" id="answer" placeholder="Your Answer..." autocomplete="off">
+            <br>
+            <button class="btn btn-check" onclick="check()">Submit</button>
+            <button class="btn btn-next" onclick="nextQuestion()">Skip</button>
+            <div id="feedback" style="margin-top: 10px; font-weight: bold;"></div>
+            <div style="color: #64748b; font-size: 0.8rem; margin-top: 15px;">Questions left in set: <span id="deck-count"></span></div>
+        </div>
+    </div>
+
+    <script>
+        function generateGeometry() {
+            const types = ['area', 'perimeter', 'shapes'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            if (type === 'area') {
+                const l = Math.floor(Math.random() * 10) + 2;
+                const w = Math.floor(Math.random() * 8) + 2;
+                return { q: `Area of a rectangle with length ${l} and width ${w}?`, a: (l * w).toString() };
+            } else if (type === 'perimeter') {
+                const s = Math.floor(Math.random() * 12) + 2;
+                return { q: `Perimeter of a square with side length ${s}?`, a: (s * 4).toString() };
+            } else {
+                const sides = [3, 5, 6, 8];
+                const names = ['triangle', 'pentagon', 'hexagon', 'octagon'];
+                const idx = Math.floor(Math.random() * sides.length);
+                return { q: `What shape has exactly ${sides[idx]} sides?`, a: names[idx] };
+            }
+        }
+
+        let deck = Array.from({ length: 100 }, generateGeometry);
+        let current = null;
+        let musicWindow = null;
+
+        function play(id) {
+            const url = "https://suno.com/song/" + id;
+            if (musicWindow && !musicWindow.closed) musicWindow.location.href = url;
+            else musicWindow = window.open(url, "MathPlayer", "width=500,height=700");
+            musicWindow.focus();
+        }
+
+        function nextQuestion() {
+            if (deck.length === 0) { document.getElementById('question').innerText = "🎉 Geometry Champion!"; return; }
+            current = deck.pop();
+            document.getElementById('question').innerText = current.q;
+            document.getElementById('answer').value = "";
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('deck-count').innerText = deck.length;
+        }
+
+        function check() {
+            const val = document.getElementById('answer').value.trim().toLowerCase();
+            const feed = document.getElementById('feedback');
+            if (val == current.a) {
+                feed.innerText = "✅ Correct!"; feed.style.color = "green";
+                setTimeout(nextQuestion, 1200);
+            } else {
+                feed.innerText = "❌ Try again!"; feed.style.color = "red";
+            }
+        }
+
+        window.onload = nextQuestion;
+        document.getElementById("answer").addEventListener("keyup", (e) => { if (e.key === "Enter") check(); });
+    </script>
+</body>
+</html>
