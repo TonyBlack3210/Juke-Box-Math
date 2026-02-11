@@ -10,39 +10,30 @@
         .sub-header { color: #f59e0b; font-weight: bold; letter-spacing: 2px; margin-top: 20px; }
         h1 { margin: 10px 0; font-size: 3rem; }
         .intro { color: #94a3b8; margin-bottom: 40px; }
-        
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; width: 95%; }
-        .card { background: #334155; border-radius: 20px; padding: 40px 20px; text-decoration: none; color: white; border-top: 8px solid transparent; transition: 0.3s; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .card { background: #334155; border-radius: 20px; padding: 40px 20px; text-decoration: none; color: white; border-top: 8px solid transparent; transition: 0.3s; text-align: center; display: flex; flex-direction: column; align-items: center; height: 200px; justify-content: center; }
         .card:hover { transform: translateY(-10px); background: #475569; }
-        .card h2 { margin: 20px 0 10px; font-size: 1.5rem; }
+        .card h2 { margin: 10px 0; font-size: 1.5rem; }
         .card p { font-size: 0.9rem; color: #cbd5e1; margin: 0; }
-        
-        /* Arena Colors */
-        .numbers { border-color: #ef4444; }
-        .algebra { border-color: #10b981; }
-        .geometry { border-color: #8b5cf6; }
-        .data { border-color: #3b82f6; }
-        .ratios { border-color: #f59e0b; }
-        .rain { border-color: #06b6d4; } /* This is the Cyan color */
-        
-        .icon { font-size: 2.5rem; }
+        .numbers { border-color: #ef4444; } .algebra { border-color: #10b981; }
+        .geometry { border-color: #8b5cf6; } .data { border-color: #3b82f6; }
+        .ratios { border-color: #f59e0b; } .rain { border-color: #06b6d4; }
     </style>
 </head>
 <body>
-    <img src="https://tonyblack3210.github.io/Juke-Box-Math/MrBlack.jpg" class="profile-img" alt="Mr. Black">
+    <img src="mr-black.jpg" class="profile-img" alt="Mr. Black">
     <div class="sub-header">MR. BLACK PRESENTS</div>
     <h1>Math Practice Hub</h1>
     <p class="intro">Choose a domain to start practicing with the Jukebox!</p>
     
     <div class="grid">
-        <a href="numbers.html" class="card numbers"><div class="icon">🔢</div><h2>Numbers & Ops</h2><p>Addition, Subtraction, Multiplication, & Division</p></a>
-        <a href="algebra.html" class="card algebra"><div class="icon">🧬</div><h2>Algebra</h2><p>Expressions, Equations, & Variables</p></a>
-        <a href="geometry.html" class="card geometry"><div class="icon">📐</div><h2>Geometry</h2><p>Shapes, Area, Volume, & Angles</p></a>
-        <a href="data.html" class="card data"><div class="icon">📊</div><h2>Measurement & Data</h2><p>Units, Time, Money, & Graphs</p></a>
-        <a href="ratios.html" class="card ratios"><div class="icon">🤠</div><h2>Ratio Rancher</h2><p>Proportional Reasoning & Grouping</p></a>
-        <a href="rain.html" class="card rain"><div class="icon">🌩️</div><h2>Math Rain</h2><p>Type fast before the facts fall!</p></a>
+        <a href="numbers.html" class="card numbers"><h2>Numbers & Ops</h2><p>Addition, Subtraction, Multiplication, & Division</p></a>
+        <a href="algebra.html" class="card algebra"><h2>Algebra</h2><p>Expressions, Equations, & Variables</p></a>
+        <a href="geometry.html" class="card geometry"><h2>Geometry</h2><p>Shapes, Area, Volume, & Angles</p></a>
+        <a href="data.html" class="card data"><h2>Measurement & Data</h2><p>Units, Time, Money, & Graphs</p></a>
+        <a href="ratios.html" class="card ratios"><h2>Ratio Rancher</h2><p>Proportional Reasoning & Grouping</p></a>
+        <a href="rain.html" class="card rain"><h2>🌩️ Math Rain</h2><p>Type fast before the facts fall!</p></a>
     </div>
-
     <footer style="margin-top: 50px; color: #64748b;">© 2026 Mr. Black's Classroom</footer>
 </body>
 </html>
