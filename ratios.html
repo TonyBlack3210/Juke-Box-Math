@@ -13,8 +13,8 @@
         .song-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 8px 2px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; }
         .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
         .question-box { font-size: 1.5rem; margin: 20px 0; padding: 30px; background: #ecfdf5; border-radius: 12px; border-left: 10px solid #059669; font-weight: bold; }
-        .input-group { margin: 20px 0; font-size: 1.2rem; }
-        input { padding: 10px; border: 2px solid #ddd; border-radius: 10px; width: 100px; font-size: 1.4rem; text-align: center; margin: 0 10px; }
+        .input-group { margin: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; }
+        input { padding: 12px; border: 2px solid #ddd; border-radius: 10px; width: 100px; font-size: 1.4rem; text-align: center; }
         .btn { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: white; margin: 5px; }
         .btn-check { background: #059669; }
         .btn-help { background: #f59e0b; }
@@ -54,11 +54,11 @@
             <h1>🤠 Ratio Rancher</h1>
             <div id="question" class="question-box">Loading ratio challenge...</div>
             <div class="input-group">
-                🐈 Cats: <input type="number" id="ans1" readonly> 
-                🐕 Dogs: <input type="number" id="ans2">
+                🐈 Cats: <input type="number" id="ans1" placeholder="?">
+                🐕 Dogs: <input type="number" id="ans2" placeholder="?">
             </div>
             <button class="btn btn-check" onclick="check()">Submit Order</button>
-            <button class="btn btn-help" onclick="toggleHelp()">💡 Need an Explanation?</button>
+            <button class="btn btn-help" onclick="toggleHelp()">💡 Explanation</button>
             <button class="btn btn-next" onclick="nextQuestion()">New Challenge</button>
             <div id="feedback" style="margin-top:10px; font-weight:bold;"></div>
             <div id="explanation-tab">
@@ -79,32 +79,34 @@
         }
 
         function nextQuestion() {
-            const r1 = Math.floor(Math.random() * 4) + 2; // Cat ratio
-            const r2 = Math.floor(Math.random() * 4) + 2; // Dog ratio
-            const factor = Math.floor(Math.random() * 6) + 2; // Multiplier
+            const r1 = Math.floor(Math.random() * 5) + 1; // Ratio part 1
+            const r2 = Math.floor(Math.random() * 5) + 1; // Ratio part 2
+            const multiplier = Math.floor(Math.random() * 8) + 2;
+            const total = (r1 + r2) * multiplier;
             
             current = {
-                cats: r1 * factor,
-                dogs: r2 * factor,
-                hint: `The ratio is ${r1} to ${r2}. Since there are ${r1 * factor} cats, we multiplied the first number by ${factor}. To keep the ratio even, multiply the second number (${r2}) by ${factor} too! (${r2} × ${factor} = ${r2 * factor})`
+                cats: r1 * multiplier,
+                dogs: r2 * multiplier,
+                hint: `1. Add the ratio parts: ${r1} + ${r2} = ${r1+r2}. \n2. Divide total by sum: ${total} ÷ ${r1+r2} = ${multiplier}. \n3. Multiply each part: ${r1}×${multiplier}=${r1*multiplier} and ${r2}×${multiplier}=${r2*multiplier}.`
             };
 
-            document.getElementById('question').innerHTML = `The ratio of cats to dogs is <strong>${r1} to ${r2}</strong>.<br>If there are <strong>${current.cats} cats</strong>, how many dogs are there?`;
+            document.getElementById('question').innerHTML = `If there are <strong>${r1} cats</strong> for every <strong>${r2} dogs</strong>, and there are <strong>${total} total animals</strong>...<br>How many are cats and how many are dogs?`;
             document.getElementById('step-text').innerText = current.hint;
-            document.getElementById('ans1').value = current.cats;
+            document.getElementById('ans1').value = "";
             document.getElementById('ans2').value = "";
             document.getElementById('feedback').innerText = "";
             document.getElementById('explanation-tab').style.display = 'none';
         }
 
         function check() {
+            const val1 = document.getElementById('ans1').value;
             const val2 = document.getElementById('ans2').value;
             const feed = document.getElementById('feedback');
-            if(val2 == current.dogs) {
-                feed.innerText = "✅ Correct! The ranch is in balance."; feed.style.color = "green";
+            if(val1 == current.cats && val2 == current.dogs) {
+                feed.innerText = "✅ Order correct! The ranch is happy."; feed.style.color = "green";
                 setTimeout(nextQuestion, 2000);
             } else {
-                feed.innerText = "❌ Not quite! Check the ratio again."; feed.style.color = "red";
+                feed.innerText = "❌ Numbers don't match the ratio! Try again."; feed.style.color = "red";
             }
         }
 
