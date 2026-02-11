@@ -17,12 +17,16 @@
     </style>
 </head>
 <body>
+    <audio id="bg-music" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="nav-header"><a href="index.html" class="home-btn">🏠 HOME</a></div>
     <div class="container">
         <div class="card">
             <img src="mr-black.jpg" class="teacher-img" alt="Mr. Black">
             <h1>📊 Measurement & Data</h1>
-            <div class="problem-area" id="data-problem">Loading challenge...</div>
+            <div class="problem-area" id="data-problem">Question loading...</div>
             <div>Answer: <input type="number" id="user-ans"></div>
             <br>
             <button class="btn" onclick="check()">Check Answer</button>
@@ -40,6 +44,12 @@
     <script>
         let prob = {};
 
+        // 1. Music Trigger: Starts on first click
+        document.addEventListener('click', () => {
+            const music = document.getElementById('bg-music');
+            music.play();
+        }, { once: true });
+
         function generate() {
             const types = [
                 { unit: 'feet', target: 'inches', cop: 12 },
@@ -54,7 +64,7 @@
             prob = { amount, unit: pick.unit, target: pick.target, cop: pick.cop, ans: ans };
             
             document.getElementById('data-problem').innerHTML = `If you have <b>${amount} ${pick.unit}</b>... <br>How many <b>${pick.target}</b> is that?`;
-            document.getElementById('step-text').innerHTML = `Every 1 ${pick.unit} contains ${pick.cop} ${pick.target}. <br>The <b>C.O.P.</b> (Constant of Proportionality) is <b>${pick.cop}</b>. <br><br>Multiply your amount (${amount}) by the C.O.P. (${pick.cop}) to get <b>${ans}</b>!`;
+            document.getElementById('step-text').innerHTML = `Every 1 ${pick.unit} contains ${pick.cop} ${pick.target}. <br>The <b>C.O.P.</b> is <b>${pick.cop}</b>. <br><br>Multiply ${amount} × ${pick.cop} = <b>${ans}</b>!`;
 
             document.getElementById('feedback').innerText = "";
             document.getElementById('user-ans').value = "";
@@ -65,11 +75,11 @@
             const ans = document.getElementById('user-ans').value;
             const feed = document.getElementById('feedback');
             if (parseInt(ans) === prob.ans) {
-                feed.innerText = "✅ Spot on! You're a conversion master.";
+                feed.innerText = "✅ Spot on!";
                 feed.style.color = "green";
                 setTimeout(generate, 3000);
             } else {
-                feed.innerText = "❌ Not quite. Remember to use the C.O.P. multiplier!";
+                feed.innerText = "❌ Not quite. Check the explanation!";
                 feed.style.color = "red";
             }
         }
@@ -79,7 +89,8 @@
             tab.style.display = tab.style.display === 'block' ? 'none' : 'block';
         }
 
-        window.onload = generate;
+        // 2. Immediate Start: Doesn't wait for images
+        document.addEventListener('DOMContentLoaded', generate);
     </script>
 </body>
 </html>
