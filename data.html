@@ -2,85 +2,118 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Measurement Hub - Mr. Black</title>
+    <title>Measurement & Data - Mr. Black</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #3b82f6, #1e293b); color: white; min-height: 100vh; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #d97706, #1e293b); color: white; min-height: 100vh; text-align: center; }
         .nav-header { text-align: left; padding: 20px; }
-        .home-btn { text-decoration: none; background: white; color: #3b82f6; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
-        .teacher-img { width: 150px; height: 150px; border-radius: 50%; border: 4px solid white; object-fit: cover; margin-bottom: 15px; }
-        .card { background: white; color: #1e293b; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .problem-area { font-size: 1.8rem; background: #eff6ff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border-left: 10px solid #3b82f6; }
-        input { padding: 10px; width: 100px; font-size: 1.5rem; border-radius: 8px; border: 2px solid #ddd; text-align: center; }
-        .btn { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; background: #3b82f6; color: white; margin: 10px 5px; }
-        #explanation-tab { display: none; margin-top: 20px; padding: 20px; background: #f1f5f9; border-radius: 10px; text-align: left; border-left: 5px solid #3b82f6; }
+        .home-btn { text-decoration: none; background: white; color: #d97706; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
+        .music-card { background: rgba(30, 41, 59, 0.8); padding: 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.2); }
+        .song-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; }
+        .song-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 8px 2px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; }
+        .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); display: block !important; }
+        .question-box { font-size: 1.8rem; margin: 20px 0; padding: 30px; background: #fffbeb; border-radius: 12px; border-left: 10px solid #d97706; font-weight: bold; }
+        input { padding: 15px; border: 2px solid #ddd; border-radius: 10px; width: 60%; font-size: 1.4rem; margin-bottom: 15px; text-align: center; }
+        .btn { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: white; margin: 5px; }
+        .btn-check { background: #d97706; }
+        .btn-help { background: #f59e0b; }
+        .btn-next { background: #64748b; }
+        #explanation-tab { display: none; margin-top: 20px; padding: 20px; background: #fffbeb; border-radius: 10px; text-align: left; border-left: 5px solid #f59e0b; color: #1e293b; }
     </style>
 </head>
 <body>
-    <audio id="bg-music" loop>
-        <source src="background-music.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="nav-header"><a href="index.html" class="home-btn">🏠 HOME</a></div>
+    <div class="nav-header"><a href="index.html" class="home-btn">🏠 RETURN TO HOME PAGE</a></div>
     <div class="container">
-        <div class="card">
-            <img src="mr-black.jpg" class="teacher-img" alt="Mr. Black">
-            <h1>📊 Measurement & Data</h1>
-            <div class="problem-area" id="data-problem">Question loading...</div>
-            <div>Answer: <input type="number" id="user-ans"></div>
-            <br>
-            <button class="btn" onclick="check()">Check Answer</button>
-            <button class="btn" style="background:#8b5cf6" onclick="toggleHelp()">💡 Explanation</button>
-            <button class="btn" style="background:#94a3b8" onclick="generate()">New Challenge</button>
-            <div id="feedback" style="margin-top:20px; font-weight:bold;"></div>
-            
-            <div id="explanation-tab">
-                <h3>🔍 Conversions & C.O.P.</h3>
-                <div id="step-text"></div>
+        <div class="music-card">
+            <h3 style="margin-top:0;">🎵 Jukebox (Single Player)</h3>
+            <div class="song-grid">
+                <button class="song-btn" onclick="play('47b2f7ff-f1e3-4986-85ab-97338cd3498b')">One Bridge</button>
+                <button class="song-btn" onclick="play('61c91f78-3939-43f5-8f3c-ccd91ff8b5be')">We Are Four</button>
+                <button class="song-btn" onclick="play('4282a1af-2643-4b56-ac82-df7d3a9aba6d')">Kaleidoscope</button>
+                <button class="song-btn" onclick="play('ea4d0635-52e6-4093-b778-1473a71e4955')">Water Falls</button>
+                <button class="song-btn" onclick="play('030ef937-79a4-40c1-9abe-cfc476de6394')">Lightning</button>
+                <button class="song-btn" onclick="play('520371ca-47c7-43ac-9ae4-62db0453c7c9')">Am I Next</button>
+                <button class="song-btn" onclick="play('399f28e5-3306-4487-96b0-387e8bf510e9')">Truth In Your Lie</button>
+                <button class="song-btn" onclick="play('0cbcc357-3cad-4bba-8fc9-863f260b0f75')">Chef Killer</button>
+                <button class="song-btn" onclick="play('c6da2095-d224-4847-a662-f4c4cc982d39')">You Da Craze</button>
+                <button class="song-btn" onclick="play('f45e3a38-cb2d-4bd1-9208-af8e8ff8637e')">Type of Man</button>
+                <button class="song-btn" onclick="play('507de0a4-6912-45ae-801e-b7c62ba9e439')">Rhyme & Clap</button>
+                <button class="song-btn" onclick="play('528ad8cd-4832-4c82-8143-fddb4e4d62ea')">Herpes</button>
+                <button class="song-btn" onclick="play('dc24bb02-998e-4178-aa51-5d4cdcfa0c92')">Questions</button>
+                <button class="song-btn" onclick="play('5c4b035c-168a-4b26-896f-0d33f19d6f5a')">Fun With You</button>
+                <button class="song-btn" onclick="play('1591ce81-8223-4879-8b8d-deb40bcd62f7')">SIMP v3</button>
+                <button class="song-btn" onclick="play('c9bc732a-3b25-4ece-a0af-852647174bc4')">Delusional</button>
+                <button class="song-btn" onclick="play('1cbf18d4-ec23-494c-a3b6-0019fdb466e0')">Chitty Bang</button>
+                <button class="song-btn" onclick="play('150d1923-d2a2-432a-9523-b37d18a5e40b')">Eyes to Mtn</button>
+                <button class="song-btn" onclick="play('76fc8a34-d416-407a-9cc0-a711f35986f1')">Pee-Pee Girl</button>
+                <button class="song-btn" onclick="play('e665a160-0dc2-45ec-857c-8a3821c92db9')">Unity</button>
             </div>
         </div>
+        <div class="card">
+            <h1>Measurement & Data</h1>
+            <div id="question" class="question-box">Loading...</div>
+            <input type="text" id="answer" placeholder="Your answer..." autocomplete="off">
+            <br>
+            <button class="btn btn-check" onclick="check()">Submit</button>
+            <button class="btn btn-help" onclick="toggleHelp()">💡 Explanation</button>
+            <button class="btn btn-next" onclick="nextQuestion()">Skip</button>
+            <div id="feedback" style="margin-top:10px; font-weight:bold;"></div>
+            <div id="explanation-tab">
+                <h3>🔍 Conversion Rule</h3>
+                <div id="step-text"></div>
+            </div>
+            <div style="color: #64748b; font-size: 0.8rem; margin-top:15px;">Questions left in deck: <span id="deck-count"></span></div>
+        </div>
     </div>
-
     <script>
-        let prob = {};
+        function buildFullDeck() {
+            let fullDeck = [];
+            for (let i = 0; i < 100; i++) {
+                const type = Math.floor(Math.random() * 4);
+                const val = Math.floor(Math.random() * 10) + 2;
+                if(type === 0) {
+                    fullDeck.push({ q: `How many inches are in ${val} feet?`, a: (val*12).toString(), hint: `1 foot = 12 inches. So ${val} × 12 = ${val*12}` });
+                } else if(type === 1) {
+                    fullDeck.push({ q: `How many centimeters are in ${val} meters?`, a: (val*100).toString(), hint: `1 meter = 100 centimeters. So ${val} × 100 = ${val*100}` });
+                } else if(type === 2) {
+                    fullDeck.push({ q: `How many quarts are in ${val} gallons?`, a: (val*4).toString(), hint: `1 gallon = 4 quarts. So ${val} × 4 = ${val*4}` });
+                } else {
+                    fullDeck.push({ q: `How many minutes are in ${val} hours?`, a: (val*60).toString(), hint: `1 hour = 60 minutes. So ${val} × 60 = ${val*60}` });
+                }
+            }
+            return fullDeck.sort(() => Math.random() - 0.5);
+        }
 
-        // 1. Music Trigger: Starts on first click
-        document.addEventListener('click', () => {
-            const music = document.getElementById('bg-music');
-            music.play();
-        }, { once: true });
+        let deck = [];
+        let current = null;
+        let musicWindow = null;
 
-        function generate() {
-            const types = [
-                { unit: 'feet', target: 'inches', cop: 12 },
-                { unit: 'yards', target: 'feet', cop: 3 },
-                { unit: 'gallons', target: 'quarts', cop: 4 }
-            ];
-            
-            const pick = types[Math.floor(Math.random() * types.length)];
-            const amount = Math.floor(Math.random() * 9) + 2;
-            const ans = amount * pick.cop;
-            
-            prob = { amount, unit: pick.unit, target: pick.target, cop: pick.cop, ans: ans };
-            
-            document.getElementById('data-problem').innerHTML = `If you have <b>${amount} ${pick.unit}</b>... <br>How many <b>${pick.target}</b> is that?`;
-            document.getElementById('step-text').innerHTML = `Every 1 ${pick.unit} contains ${pick.cop} ${pick.target}. <br>The <b>C.O.P.</b> is <b>${pick.cop}</b>. <br><br>Multiply ${amount} × ${pick.cop} = <b>${ans}</b>!`;
+        function play(id) {
+            const url = "https://suno.com/song/" + id;
+            if (musicWindow && !musicWindow.closed) { musicWindow.location.href = url; } 
+            else { musicWindow = window.open(url, "MathPlayer", "width=500,height=700"); }
+            musicWindow.focus();
+        }
 
+        function nextQuestion() {
+            if (deck.length === 0) deck = buildFullDeck();
+            current = deck.pop();
+            document.getElementById('question').innerText = current.q;
+            document.getElementById('step-text').innerText = current.hint;
+            document.getElementById('answer').value = "";
             document.getElementById('feedback').innerText = "";
-            document.getElementById('user-ans').value = "";
             document.getElementById('explanation-tab').style.display = 'none';
+            document.getElementById('deck-count').innerText = deck.length;
         }
 
         function check() {
-            const ans = document.getElementById('user-ans').value;
+            const val = document.getElementById('answer').value.trim();
             const feed = document.getElementById('feedback');
-            if (parseInt(ans) === prob.ans) {
-                feed.innerText = "✅ Spot on!";
-                feed.style.color = "green";
-                setTimeout(generate, 3000);
+            if(val == current.a) {
+                feed.innerText = "✅ Correct!"; feed.style.color = "green";
+                setTimeout(nextQuestion, 1500);
             } else {
-                feed.innerText = "❌ Not quite. Check the explanation!";
-                feed.style.color = "red";
+                feed.innerText = "❌ Try again!"; feed.style.color = "red";
             }
         }
 
@@ -89,8 +122,8 @@
             tab.style.display = tab.style.display === 'block' ? 'none' : 'block';
         }
 
-        // 2. Immediate Start: Doesn't wait for images
-        document.addEventListener('DOMContentLoaded', generate);
+        window.onload = nextQuestion;
+        document.getElementById("answer").addEventListener("keyup", (e) => { if (e.key === "Enter") check(); });
     </script>
 </body>
 </html>
