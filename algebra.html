@@ -4,26 +4,29 @@
     <meta charset="UTF-8">
     <title>Algebra Practice - Mr. Black</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #2563eb, #7e22ce); color: white; min-height: 100vh; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #059669, #1e293b); color: white; min-height: 100vh; text-align: center; }
         .nav-header { text-align: left; padding: 20px; }
-        .home-btn { text-decoration: none; background: white; color: #2563eb; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
+        .home-btn { text-decoration: none; background: white; color: #059669; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
-        .music-card { background: rgba(30, 41, 59, 0.8); padding: 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.2); }
+        .music-card { background: rgba(30, 41, 59, 0.8); padding: 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.2); }
         .song-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; }
         .song-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 8px 2px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; }
-        .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); display: block !important; }
-        .question-box { font-size: 1.8rem; margin: 20px 0; padding: 30px; background: #eff6ff; border-radius: 12px; border-left: 10px solid #2563eb; font-weight: bold; }
+        .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); display: block !important; }
+        .question-box { font-size: 2.2rem; margin: 20px 0; padding: 30px; background: #ecfdf5; border-radius: 12px; border-left: 10px solid #059669; font-weight: bold; }
         input { padding: 15px; border: 2px solid #ddd; border-radius: 10px; width: 60%; font-size: 1.4rem; margin-bottom: 15px; text-align: center; }
         .btn { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: white; margin: 5px; }
-        .btn-check { background: #2563eb; }
+        .btn-check { background: #059669; }
         .btn-next { background: #64748b; }
     </style>
 </head>
 <body>
-    <div class="nav-header"><a href="index.html" class="home-btn">🏠 RETURN TO HOME PAGE</a></div>
+    <div class="nav-header">
+        <a href="index.html" class="home-btn">🏠 RETURN TO HOME PAGE</a>
+    </div>
+
     <div class="container">
         <div class="music-card">
-            <h3 style="margin-top:0;">🎵 Jukebox (Single Player)</h3>
+            <h3 style="margin-top: 0;">🎵 Jukebox (Single Player)</h3>
             <div class="song-grid">
                 <button class="song-btn" onclick="play('47b2f7ff-f1e3-4986-85ab-97338cd3498b')">One Bridge</button>
                 <button class="song-btn" onclick="play('61c91f78-3939-43f5-8f3c-ccd91ff8b5be')">We Are Four</button>
@@ -47,32 +50,41 @@
                 <button class="song-btn" onclick="play('e665a160-0dc2-45ec-857c-8a3821c92db9')">Unity</button>
             </div>
         </div>
+
         <div class="card">
             <h1>Algebra & Expressions</h1>
             <div id="question" class="question-box">Loading...</div>
-            <input type="text" id="answer" placeholder="Value of x..." autocomplete="off">
+            <input type="number" id="answer" placeholder="Value of x..." autocomplete="off">
             <br>
             <button class="btn btn-check" onclick="check()">Submit</button>
             <button class="btn btn-next" onclick="nextQuestion()">Skip</button>
-            <div id="feedback"></div>
-            <div style="color: #64748b; font-size: 0.8rem; margin-top:15px;">Questions left: <span id="deck-count"></span></div>
+            <div id="feedback" style="margin-top: 10px; font-weight: bold;"></div>
+            <div style="color: #64748b; font-size: 0.8rem; margin-top: 15px;">Questions left in set: <span id="deck-count"></span></div>
         </div>
     </div>
-    <script>
-        const masterList = [
-            { q: "If x + 5 = 12, what is x?", a: "7" }, { q: "Solve for x: 2x = 20", a: "10" }, { q: "If 3x - 2 = 10, what is x?", a: "4" },
-            { q: "Simplify: 5x + 2x", a: "7x" }, { q: "Solve: x / 4 = 5", a: "20" }, { q: "If x = 3, what is 4x + 2?", a: "14" },
-            { q: "Solve for y: y - 10 = 50", a: "60" }, { q: "Simplify: 10a - 3a", a: "7a" }, { q: "If x = 5, what is x²?", a: "25" },
-            { q: "Solve for x: x + x = 16", a: "8" }
-            // Add more Algebra questions here!
-        ];
 
-        let deck = [];
+    <script>
+        function generateAlgebra() {
+            const types = ['addition', 'subtraction', 'multiplication'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            const x = Math.floor(Math.random() * 15) + 1;
+            
+            if (type === 'addition') {
+                const b = Math.floor(Math.random() * 20) + 1;
+                return { q: `x + ${b} = ${x + b}`, a: x.toString() };
+            } else if (type === 'subtraction') {
+                const b = Math.floor(Math.random() * 10) + 1;
+                return { q: `x - ${b} = ${x - b}`, a: x.toString() };
+            } else {
+                const m = Math.floor(Math.random() * 5) + 2;
+                return { q: `${m}x = ${m * x}`, a: x.toString() };
+            }
+        }
+
+        let deck = Array.from({ length: 100 }, generateAlgebra);
         let current = null;
         let musicWindow = null;
 
-        function shuffle() { deck = [...masterList].sort(() => Math.random() - 0.5); }
-        
         function play(id) {
             const url = "https://suno.com/song/" + id;
             if (musicWindow && !musicWindow.closed) {
@@ -84,9 +96,12 @@
         }
 
         function nextQuestion() {
-            if (deck.length === 0) shuffle();
+            if (deck.length === 0) {
+                document.getElementById('question').innerText = "🎉 Algebra Mastered! Refresh for 100 more.";
+                return;
+            }
             current = deck.pop();
-            document.getElementById('question').innerText = current.q;
+            document.getElementById('question').innerText = "Find x: " + current.q;
             document.getElementById('answer').value = "";
             document.getElementById('feedback').innerText = "";
             document.getElementById('deck-count').innerText = deck.length;
@@ -95,15 +110,17 @@
         function check() {
             const val = document.getElementById('answer').value.trim();
             const feed = document.getElementById('feedback');
-            if(val.toLowerCase() == current.a.toLowerCase()) {
-                feed.innerText = "✅ Correct!"; feed.style.color = "green";
+            if (val == current.a) {
+                feed.innerText = "✅ Correct! x = " + current.a;
+                feed.style.color = "green";
                 setTimeout(nextQuestion, 1200);
             } else {
-                feed.innerText = "❌ Try again!"; feed.style.color = "red";
+                feed.innerText = "❌ Try again!";
+                feed.style.color = "red";
             }
         }
 
-        window.onload = function() { shuffle(); nextQuestion(); };
+        window.onload = nextQuestion;
         document.getElementById("answer").addEventListener("keyup", (e) => { if (e.key === "Enter") check(); });
     </script>
 </body>
