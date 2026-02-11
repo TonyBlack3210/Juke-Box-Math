@@ -2,105 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mr. Black's Math Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Black's Math Practice Hub</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #dc2626, #7e22ce); color: white; min-height: 100vh; text-align: center; }
-        .header { padding: 30px 20px; }
-        .header h1 { margin: 0; font-size: 2.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-        
-        .music-card { 
-            background: rgba(30, 41, 59, 0.8); 
-            backdrop-filter: blur(10px);
-            padding: 25px; 
-            border-radius: 20px; 
-            margin-bottom: 25px; 
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .song-grid { 
-            display: grid; 
-            grid-template-columns: repeat(10, 1fr); 
-            gap: 8px; 
-        }
-
-        .song-btn { 
-            background: rgba(255, 255, 255, 0.1); 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            color: white; 
-            padding: 10px 2px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            font-size: 0.75rem;
-            transition: 0.2s;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .song-btn:hover { background: #dc2626; transform: translateY(-2px); border-color: white; }
-        
-        .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-        h2 { margin-top: 0; color: #dc2626; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
-        
-        .domain-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
-        .domain-btn { background: #1e293b; color: white; text-decoration: none; padding: 20px; border-radius: 12px; font-weight: bold; font-size: 1.2rem; transition: 0.3s; display: block; }
-        .domain-btn:hover { background: #dc2626; }
-
-        /* THE FIX: We removed the broken gray box entirely to keep it clean! */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: linear-gradient(135deg, #1e293b, #0f172a); color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1000px; width: 90%; padding: 20px; }
+        .card { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 30px; text-align: center; text-decoration: none; color: white; transition: all 0.3s ease; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; }
+        .card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.2); border-color: white; box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+        .card h2 { margin: 15px 0 10px; font-size: 1.6rem; }
+        .card p { font-size: 1rem; opacity: 0.9; }
+        .icon { font-size: 3rem; }
+        /* Specific Colors for Domains */
+        .num { border-top: 8px solid #dc2626; }
+        .alg { border-top: 8px solid #10b981; }
+        .geo { border-top: 8px solid #8b5cf6; }
+        .dat { border-top: 8px solid #3b82f6; }
+        .rat { border-top: 8px solid #f59e0b; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Mr. Black's Math Practice Hub</h1>
-        <p>Pick a song to open the player, then select your practice domain!</p>
+    <h1>Math Practice Hub</h1>
+    <p style="font-size: 1.2rem; margin-bottom: 30px;">Choose a domain to start practicing with the Jukebox!</p>
+
+    <div class="grid">
+        <a href="numbers.html" class="card num">
+            <div class="icon">🔢</div>
+            <h2>Numbers & Ops</h2>
+            <p>Addition, Subtraction, Multiplication, & Division</p>
+        </a>
+
+        <a href="algebra.html" class="card alg">
+            <div class="icon">🧬</div>
+            <h2>Algebra</h2>
+            <p>Expressions, Equations, & Variables</p>
+        </a>
+
+        <a href="geometry.html" class="card geo">
+            <div class="icon">📐</div>
+            <h2>Geometry</h2>
+            <p>Shapes, Area, Volume, & Angles</p>
+        </a>
+
+        <a href="data.html" class="card dat">
+            <div class="icon">📊</div>
+            <h2>Measurement & Data</h2>
+            <p>Units, Time, Money, & Graphs</p>
+        </a>
+
+        <a href="ratios.html" class="card rat">
+            <div class="icon">🤠</div>
+            <h2>Ratio Rancher</h2>
+            <p>Proportional Reasoning & Grouping</p>
+        </a>
     </div>
 
-    <div class="container">
-        <div class="music-card">
-            <h3 style="margin-top:0; font-size: 1.1rem;">🎵 Study Jukebox (Opens in new window)</h3>
-            <div class="song-grid">
-                <button class="song-btn" onclick="play('47b2f7ff-f1e3-4986-85ab-97338cd3498b')">One Bridge</button>
-                <button class="song-btn" onclick="play('61c91f78-3939-43f5-8f3c-ccd91ff8b5be')">We Are Four</button>
-                <button class="song-btn" onclick="play('4282a1af-2643-4b56-ac82-df7d3a9aba6d')">Kaleidoscope</button>
-                <button class="song-btn" onclick="play('ea4d0635-52e6-4093-b778-1473a71e4955')">Water Falls</button>
-                <button class="song-btn" onclick="play('030ef937-79a4-40c1-9abe-cfc476de6394')">Lightning</button>
-                <button class="song-btn" onclick="play('520371ca-47c7-43ac-9ae4-62db0453c7c9')">Am I Next</button>
-                <button class="song-btn" onclick="play('399f28e5-3306-4487-96b0-387e8bf510e9')">Truth In Your Lie</button>
-                <button class="song-btn" onclick="play('0cbcc357-3cad-4bba-8fc9-863f260b0f75')">Chef Killer</button>
-                <button class="song-btn" onclick="play('c6da2095-d224-4847-a662-f4c4cc982d39')">You Da Craze</button>
-                <button class="song-btn" onclick="play('f45e3a38-cb2d-4bd1-9208-af8e8ff8637e')">Type of Man</button>
-                <button class="song-btn" onclick="play('507de0a4-6912-45ae-801e-b7c62ba9e439')">Rhyme & Clap</button>
-                <button class="song-btn" onclick="play('528ad8cd-4832-4c82-8143-fddb4e4d62ea')">Herpes</button>
-                <button class="song-btn" onclick="play('dc24bb02-998e-4178-aa51-5d4cdcfa0c92')">Questions</button>
-                <button class="song-btn" onclick="play('5c4b035c-168a-4b26-896f-0d33f19d6f5a')">Fun With You</button>
-                <button class="song-btn" onclick="play('1591ce81-8223-4879-8b8d-deb40bcd62f7')">SIMP v3</button>
-                <button class="song-btn" onclick="play('c9bc732a-3b25-4ece-a0af-852647174bc4')">Delusional</button>
-                <button class="song-btn" onclick="play('1cbf18d4-ec23-494c-a3b6-0019fdb466e0')">Chitty Bang</button>
-                <button class="song-btn" onclick="play('150d1923-d2a2-432a-9523-b37d18a5e40b')">Eyes to Mtn</button>
-                <button class="song-btn" onclick="play('76fc8a34-d416-407a-9cc0-a711f35986f1')">Pee-Pee Girl</button>
-                <button class="song-btn" onclick="play('e665a160-0dc2-45ec-857c-8a3821c92db9')">Unity</button>
-            </div>
-        </div>
+    <footer style="margin-top: 50px; opacity: 0.6; font-size: 0.9rem;">
+        Created by Mr. Black
+    </footer>
 
-        <div class="card">
-            <h2>Select a Curriculum Domain</h2>
-            <div class="domain-list">
-                <a href="numbers.html" class="domain-btn">1. Numbers & Operations</a>
-                <a href="algebra.html" class="domain-btn">2. Algebra & Expressions</a>
-                <a href="geometry.html" class="domain-btn">3. Geometry Practice</a>
-                <a href="data.html" class="domain-btn">4. Measurement & Data</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function play(id) {
-            // Opens the Suno song in a new window so it actually plays!
-            window.open("https://suno.com/song/" + id, "_blank", "width=500,height=700");
-        }
-    </script>
 </body>
 </html>
