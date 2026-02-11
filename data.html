@@ -8,10 +8,10 @@
         .nav-header { text-align: left; padding: 20px; }
         .home-btn { text-decoration: none; background: white; color: #d97706; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 40px; }
-        .music-card { background: rgba(30, 41, 59, 0.8); padding: 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.2); }
+        .music-card { background: rgba(30, 41, 59, 0.8); padding: 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.2); }
         .song-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; }
         .song-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; padding: 8px 2px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; }
-        .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); display: block !important; }
+        .card { background: white; color: #1e293b; padding: 35px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); display: block !important; }
         .question-box { font-size: 1.8rem; margin: 20px 0; padding: 30px; background: #fffbeb; border-radius: 12px; border-left: 10px solid #d97706; font-weight: bold; }
         input { padding: 15px; border: 2px solid #ddd; border-radius: 10px; width: 60%; font-size: 1.4rem; margin-bottom: 15px; text-align: center; }
         .btn { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: white; margin: 5px; }
@@ -20,10 +20,13 @@
     </style>
 </head>
 <body>
-    <div class="nav-header"><a href="index.html" class="home-btn">🏠 RETURN TO HOME PAGE</a></div>
+    <div class="nav-header">
+        <a href="index.html" class="home-btn">🏠 RETURN TO HOME PAGE</a>
+    </div>
+
     <div class="container">
         <div class="music-card">
-            <h3 style="margin-top:0;">🎵 Jukebox (Single Player)</h3>
+            <h3 style="margin-top: 0;">🎵 Jukebox (Single Player)</h3>
             <div class="song-grid">
                 <button class="song-btn" onclick="play('47b2f7ff-f1e3-4986-85ab-97338cd3498b')">One Bridge</button>
                 <button class="song-btn" onclick="play('61c91f78-3939-43f5-8f3c-ccd91ff8b5be')">We Are Four</button>
@@ -47,6 +50,7 @@
                 <button class="song-btn" onclick="play('e665a160-0dc2-45ec-857c-8a3821c92db9')">Unity</button>
             </div>
         </div>
+
         <div class="card">
             <h1>Measurement & Data</h1>
             <div id="question" class="question-box">Loading...</div>
@@ -55,29 +59,36 @@
             <button class="btn btn-check" onclick="check()">Submit</button>
             <button class="btn btn-next" onclick="nextQuestion()">Skip</button>
             <div id="feedback"></div>
-            <div style="color: #64748b; font-size: 0.8rem; margin-top:15px;">Questions left: <span id="deck-count"></span></div>
+            <div style="color: #64748b; font-size: 0.8rem; margin-top: 15px;">Questions left: <span id="deck-count"></span></div>
         </div>
     </div>
-    <script>
-        const masterList = [
-            { q: "How many inches in 1 foot?", a: "12" },
-            { q: "How many centimeters in 1 meter?", a: "100" },
-            { q: "How many minutes in 2 hours?", a: "120" },
-            { q: "How many quarts in a gallon?", a: "4" },
-            { q: "How many grams in 1 kilogram?", a: "1000" },
-            { q: "How many inches in 3 feet?", a: "36" },
-            { q: "How many ounces in a pound?", a: "16" },
-            { q: "What is 4:00 PM in 24-hour time?", a: "16:00" },
-            { q: "How many cups in a pint?", a: "2" },
-            { q: "How many millimeters in 1 centimeter?", a: "10" }
-        ];
 
-        let deck = [];
+    <script>
+        // GENERATOR FUNCTION: This creates variety so you have 100 questions
+        function generateQuestion() {
+            const types = ['time', 'length', 'money', 'capacity'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            if (type === 'time') {
+                const hr = Math.floor(Math.random() * 11) + 1;
+                return { q: `What is ${hr}:00 PM in 24-hour time?`, a: `${hr + 12}:00` };
+            } else if (type === 'length') {
+                const ft = Math.floor(Math.random() * 10) + 1;
+                return { q: `How many inches are in ${ft} feet?`, a: (ft * 12).toString() };
+            } else if (type === 'money') {
+                const quarters = Math.floor(Math.random() * 8) + 1;
+                return { q: `How much money is ${quarters} quarters? (Format: 0.00)`, a: (quarters * 0.25).toFixed(2) };
+            } else {
+                const gal = Math.floor(Math.random() * 5) + 1;
+                return { q: `How many quarts are in ${gal} gallon(s)?`, a: (gal * 4).toString() };
+            }
+        }
+
+        // Create the deck of 100 questions
+        let deck = Array.from({ length: 100 }, generateQuestion);
         let current = null;
         let musicWindow = null;
 
-        function shuffle() { deck = [...masterList].sort(() => Math.random() - 0.5); }
-        
         function play(id) {
             const url = "https://suno.com/song/" + id;
             if (musicWindow && !musicWindow.closed) {
@@ -89,7 +100,10 @@
         }
 
         function nextQuestion() {
-            if (deck.length === 0) shuffle();
+            if (deck.length === 0) {
+                document.getElementById('question').innerText = "🎉 All 100 Questions Finished!";
+                return;
+            }
             current = deck.pop();
             document.getElementById('question').innerText = current.q;
             document.getElementById('answer').value = "";
@@ -100,16 +114,21 @@
         function check() {
             const val = document.getElementById('answer').value.trim().toLowerCase();
             const feed = document.getElementById('feedback');
-            if(val == current.a.toLowerCase()) {
-                feed.innerText = "✅ Correct!"; feed.style.color = "green";
+            if (val == current.a.toLowerCase()) {
+                feed.innerText = "✅ Correct!";
+                feed.style.color = "green";
                 setTimeout(nextQuestion, 1200);
             } else {
-                feed.innerText = "❌ Try again!"; feed.style.color = "red";
+                feed.innerText = "❌ Try again!";
+                feed.style.color = "red";
             }
         }
 
-        window.onload = function() { shuffle(); nextQuestion(); };
-        document.getElementById("answer").addEventListener("keyup", (e) => { if (e.key === "Enter") check(); });
+        window.onload = nextQuestion;
+
+        document.getElementById("answer").addEventListener("keyup", (e) => {
+            if (e.key === "Enter") check();
+        });
     </script>
 </body>
 </html>
