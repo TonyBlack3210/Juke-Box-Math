@@ -7,32 +7,34 @@
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: linear-gradient(135deg, #10b981, #1e293b); color: white; min-height: 100vh; text-align: center; }
         .nav-header { text-align: left; padding: 20px; }
         .home-btn { text-decoration: none; background: white; color: #10b981; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
-        .teacher-img { width: 150px; height: 150px; border-radius: 50%; border: 4px solid white; object-fit: cover; margin-bottom: 15px; }
-        .card { background: white; color: #1e293b; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .problem-area { font-size: 2rem; background: #f0fdf4; padding: 20px; border-radius: 15px; margin-bottom: 20px; border-left: 10px solid #10b981; }
-        input { padding: 10px; width: 80px; font-size: 1.5rem; border-radius: 8px; border: 2px solid #ddd; text-align: center; }
-        .btn { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; background: #10b981; color: white; margin: 10px 5px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .card { background: white; color: #1e293b; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .problem-area { font-size: 2.2rem; background: #f0fdf4; padding: 30px; border-radius: 15px; margin-bottom: 25px; border-left: 10px solid #10b981; }
+        input { padding: 12px; width: 100px; font-size: 1.8rem; border-radius: 8px; border: 2px solid #ddd; text-align: center; }
+        .btn { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; background: #10b981; color: white; margin: 10px 5px; font-size: 1rem; }
         #explanation-tab { display: none; margin-top: 20px; padding: 20px; background: #f1f5f9; border-radius: 10px; text-align: left; border-left: 5px solid #3b82f6; }
+        h1 { margin-top: 0; color: #064e3b; }
     </style>
 </head>
 <body>
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop preload="auto">
         <source src="background-music.mp3" type="audio/mpeg">
     </audio>
 
     <div class="nav-header"><a href="index.html" class="home-btn">🏠 HOME</a></div>
+    
     <div class="container">
         <div class="card">
-            <img id="teacher-face" src="mr-black.jpg" class="teacher-img" alt="Mr. Black">
             <h1>🧬 Algebra Arena</h1>
             <div class="problem-area" id="equation">Equation loading...</div>
-            <div>Find x: <input type="number" id="user-ans"></div>
-            <br>
+            <div style="font-size: 1.2rem; margin-bottom: 15px;">Find x: <input type="number" id="user-ans"></div>
+            
             <button class="btn" onclick="check()">Check Answer</button>
             <button class="btn" style="background:#3b82f6" onclick="toggleHelp()">💡 Explanation</button>
             <button class="btn" style="background:#94a3b8" onclick="generate()">New Equation</button>
-            <div id="feedback" style="margin-top:20px; font-weight:bold;"></div>
+            
+            <div id="feedback" style="margin-top:20px; font-size: 1.2rem; font-weight:bold;"></div>
+            
             <div id="explanation-tab">
                 <h3>🔍 Solving with C.O.P. Logic</h3>
                 <div id="step-text"></div>
@@ -42,15 +44,15 @@
 
     <script>
         let prob = {};
+        const music = document.getElementById('bg-music');
 
-        // 1. Music Trigger: Starts on first click
+        // Music Trigger: Browsers require a click to start audio
         document.addEventListener('click', () => {
-            const music = document.getElementById('bg-music');
-            music.play();
+            music.play().catch(e => console.log("Music pending click..."));
         }, { once: true });
 
         function generate() {
-            const cop = Math.floor(Math.random() * 10) + 2; // This is our x
+            const cop = Math.floor(Math.random() * 10) + 2; 
             const factor = Math.floor(Math.random() * 8) + 2;
             const result = cop * factor;
             prob = { x: cop, f: factor, r: result };
@@ -69,9 +71,9 @@
             if (parseInt(ans) === prob.x) {
                 feed.innerText = "✅ Correct! You found the C.O.P.";
                 feed.style.color = "green";
-                setTimeout(generate, 3000);
+                setTimeout(generate, 2500);
             } else {
-                feed.innerText = "❌ Not quite. Use the explanation button!";
+                feed.innerText = "❌ Not quite. Check the explanation!";
                 feed.style.color = "red";
             }
         }
@@ -81,7 +83,7 @@
             tab.style.display = tab.style.display === 'block' ? 'none' : 'block';
         }
 
-        // 2. Immediate Start: Shows the math problem immediately
+        // Immediate Start
         document.addEventListener('DOMContentLoaded', generate);
     </script>
 </body>
