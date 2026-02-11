@@ -3,61 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Black's Juke-Box Math</title>
+    <title>Mr. Black's Math Practice Hub</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: linear-gradient(135deg, #1e293b, #334155); color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        header { background: rgba(15, 23, 42, 0.9); width: 100%; padding: 40px 0; text-align: center; border-bottom: 4px solid #3b82f6; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        h1 { margin: 0; font-size: 3rem; letter-spacing: 2px; text-transform: uppercase; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1200px; width: 90%; margin-top: 50px; padding-bottom: 50px; }
-        .arena-card { background: white; color: #1e293b; border-radius: 20px; padding: 30px; text-align: center; text-decoration: none; transition: all 0.3s ease; border: 5px solid transparent; display: flex; flex-direction: column; justify-content: space-between; height: 200px; }
-        .arena-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
-        .arena-card h2 { margin: 0; font-size: 1.8rem; }
-        .arena-card p { font-weight: bold; color: #64748b; }
-        /* Arena Colors */
-        .algebra { border-color: #3b82f6; } .algebra:hover { background: #eff6ff; }
-        .geometry { border-color: #8b5cf6; } .geometry:hover { background: #f5f3ff; }
-        .numbers { border-color: #ef4444; } .numbers:hover { background: #fef2f2; }
-        .data { border-color: #f59e0b; } .data:hover { background: #fffbeb; }
-        .ratios { border-color: #10b981; } .ratios:hover { background: #ecfdf5; }
-        /* The New Game Button */
-        .rain { border-color: #06b6d4; background: #06b6d4; color: white; }
-        .rain:hover { background: #0891b2; color: white; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #0f172a; color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        h1 { margin-top: 40px; font-size: 3rem; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin-top: 40px; }
+        .card { background: #1e293b; border-radius: 15px; padding: 30px; text-decoration: none; color: white; border-top: 5px solid transparent; transition: 0.3s; text-align: center; }
+        .card:hover { transform: translateY(-5px); background: #334155; }
+        .card h2 { margin: 15px 0 10px; }
+        .card p { font-size: 0.9rem; color: #94a3b8; }
+        .numbers { border-color: #ef4444; }
+        .algebra { border-color: #10b981; }
+        .geometry { border-color: #8b5cf6; }
+        .data { border-color: #3b82f6; }
+        .ratios { border-color: #f59e0b; }
+        .rain { border-color: #06b6d4; } /* New Cyan Color */
     </style>
 </head>
 <body>
-    <header>
-        <h1>🎧 Juke-Box Math Arena</h1>
-        <p>Master the Math. Own the Music.</p>
-    </header>
-
+    <h1>Math Practice Hub</h1>
+    <p>Choose a domain to start practicing with the Jukebox!</p>
+    
     <div class="grid">
-        <a href="algebra.html" class="arena-card algebra">
-            <h2>Algebra Arena</h2>
-            <p>Solve for X and jam out.</p>
-        </a>
-        <a href="geometry.html" class="arena-card geometry">
-            <h2>Geometry Arena</h2>
-            <p>Shapes, angles, and beats.</p>
-        </a>
-        <a href="numbers.html" class="arena-card numbers">
-            <h2>Numbers & Ops</h2>
-            <p>The core of the rhythm.</p>
-        </a>
-        <a href="ratios.html" class="arena-card ratios">
-            <h2>Ratio Rancher</h2>
-            <p>Keep the ranch in balance.</p>
-        </a>
-        <a href="data.html" class="arena-card data">
-            <h2>Measurement & Data</h2>
-            <p>Conversions and graphs.</p>
-        </a>
-        <a href="rain.html" class="arena-card rain">
-            <h2>🌩️ MATH RAIN</h2>
-            <p>Type fast before the facts fall!</p>
-        </a>
+        <a href="numbers.html" class="card numbers"><h2>Numbers & Ops</h2><p>Addition, Subtraction, Multiplication, & Division</p></a>
+        <a href="algebra.html" class="card algebra"><h2>Algebra</h2><p>Expressions, Equations, & Variables</p></a>
+        <a href="geometry.html" class="card geometry"><h2>Geometry</h2><p>Shapes, Area, Volume, & Angles</p></a>
+        <a href="data.html" class="card data"><h2>Measurement & Data</h2><p>Units, Time, Money, & Graphs</p></a>
+        <a href="ratios.html" class="card ratios"><h2>Ratio Rancher</h2><p>Proportional Reasoning & Grouping</p></a>
+        <a href="rain.html" class="card rain"><h2>Math Rain</h2><p>Type fast before the facts fall!</p></a>
     </div>
-    <footer style="margin-top: auto; padding: 20px; color: #64748b;">
-        © 2026 Mr. Black's Classroom
-    </footer>
+
+    <footer style="margin-top: 40px; padding-bottom: 20px; color: #475569;">© 2026 Mr. Black's Classroom</footer>
 </body>
 </html>
