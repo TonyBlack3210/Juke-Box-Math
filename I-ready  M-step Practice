@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.26 Sovereign Practice - Create TRUTH</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .header { background: #2c3e50; color: white; padding: 15px; text-align: center; font-size: 1.5rem; font-weight: bold; }
+        .main-container { display: flex; flex: 1; overflow: hidden; gap: 15px; padding: 15px; }
+        .column { flex: 1; background: white; border-radius: 12px; display: flex; flex-direction: column; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid #ddd; position: relative; }
+        .col-header { padding: 15px; text-align: center; font-weight: bold; color: white; font-size: 1.2rem; }
+        .iready-header { background: #9b59b6; }
+        .mstep-header { background: #2980b9; }
+        .problem-space { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+        .q-card { width: 95%; border: 1px solid #eee; padding: 20px; border-radius: 10px; background: #fff; min-height: 120px; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px; }
+        .opt-btn { padding: 15px; border: 2px solid #ccc; border-radius: 8px; cursor: pointer; background: #f9f9f9; font-weight: bold; }
+        .opt-btn.selected { background: #34495e !important; color: white !important; border-color: #2c3e50; }
+        .scoreboard { margin-top: 15px; font-weight: bold; color: #2c3e50; font-size: 0.9rem; }
+        .explanation { display: none; margin-top: 15px; padding: 15px; background: #fff9e6; border-left: 5px solid #f1c40f; font-size: 0.9rem; text-align: left; }
+        .control-bar { background: #f1f2f6; padding: 10px; display: flex; justify-content: space-around; border-top: 1px solid #ddd; }
+        .ctrl-btn { padding: 8px 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .btn-sub { background: #27ae60; color: white; }
+        @keyframes firework { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
+        .firework-pop { position: absolute; top: 40%; left: 40%; width: 120px; height: 120px; background: radial-gradient(circle, #f1c40f, #e67e22, transparent); border-radius: 50%; pointer-events: none; animation: firework 0.6s ease-out forwards; display: none; z-index: 50; }
+        #overlay-i, #overlay-m { position: absolute; inset: 0; background: rgba(0,0,0,0.95); color: white; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 100; border-radius: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="header">CREATE TRUTH: The Authentic Engine</div>
+
+<div class="main-container">
+    <div class="column" id="col-i">
+        <div class="firework-pop" id="fw-i"></div>
+        <div id="overlay-i"><h2>i-Ready Complete</h2><h1 id="score-i">0%</h1><button class="ctrl-btn" onclick="resetCol('i')">Next 20 Problems</button></div>
+        <div class="col-header iready-header">i-Ready Practice Test</div>
+        <div class="problem-space">
+            <div id="card-i" class="q-card"></div>
+            <div id="sb-i" class="scoreboard">0/0 Correct - 0% Understanding</div>
+            <div id="exp-i" class="explanation"></div>
+        </div>
+        <div class="control-bar">
+            <button class="ctrl-btn" onclick="window.location.href='index.html'">Hub</button>
+            <button class="ctrl-btn btn-sub" onclick="submitAns('i')">Submit</button>
+            <button class="ctrl-btn" onclick="toggleExp('i')">Explain</button>
+        </div>
+    </div>
+
+    <div class="column" id="col-m">
+        <div class="firework-pop" id="fw-m"></div>
+        <div id="overlay-m"><h2>M-STEP Complete</h2><h1 id="score-m">0%</h1><button class="ctrl-btn" onclick="resetCol('m')">Next 20 Problems</button></div>
+        <div class="col-header mstep-header">M-STEP Practice Test</div>
+        <div class="problem-space">
+            <div id="card-m" class="q-card"></div>
+            <div id="sb-m" class="scoreboard">0/0 Correct - 0% Understanding</div>
+            <div id="exp-m" class="explanation"></div>
+        </div>
+        <div class="control-bar">
+            <button class="ctrl-btn" onclick="window.location.href='index.html'">Hub</button>
+            <button class="ctrl-btn btn-sub" onclick="submitAns('m')">Submit</button>
+            <button class="ctrl-btn" onclick="toggleExp('m')">Explain</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let state = { 
+        i: { count: 0, score: 0, current: null, selected: null, usedHint: false }, 
+        m: { count: 0, score: 0, current: null, selected: null, usedHint: false } 
+    };
+
+    function generateProblem(type) {
+        let domain = Math.floor(Math.random() * 5); 
+        let v1 = Math.floor(Math.random() * 10) + 2;
+        let v2 = Math.floor(Math.random() * 15) + 5;
+        let correct, qText, steps, std, needsDecimal = false;
+
+        if (type === 'i') {
+            if (domain === 0) {
+                correct = v1 * 4; qText = `Ratio: ${v1}:3 is the same as ?:12`; std = "6.RP.A.3"; steps = `Multiply by 4. ${v1}x4=${correct}.`;
+            } else if (domain === 1) {
+                correct = v1 - v2; qText = `Evaluate: ${v1} - ${v2}`; std = "7.NS.A.1"; steps = `Result: ${correct}.`;
+            } else if (domain === 2) {
+                correct = v1 * v2; qText = `Solve for x: x / ${v1} = ${v2}`; std = "6.EE.B.7"; steps = `${v2}x${v1}=${correct}.`;
+            } else if (domain === 3) {
+                correct = v1 * v2; qText = `Area of rectangle (L=${v1}, W=${v2})`; std = "6.G.A.1"; steps = `${v1}x${v2}=${correct}.`;
+            } else {
+                correct = Math.round((v1 + v2) / 2); qText = `Mean of ${v1} and ${v2}`; std = "6.SP.B.5"; steps = `Avg: ${correct}.`;
+            }
+        } else {
+            needsDecimal = true;
+            if (domain === 0) {
+                let p = v2 * 5; correct = (p * 1.06).toFixed(2); qText = `Pizza $${p} + 6% tax. Total?`; std = "7.RP.A.3"; steps = `$${correct}.`;
+            } else if (domain === 1) {
+                correct = (v1 / v2).toFixed(2); qText = `Convert ${v1}/${v2} to decimal.`; std = "7.NS.A.2"; steps = `${correct}.`;
+            } else if (domain === 2) {
+                correct = (v2 + v1).toFixed(2); qText = `Spend $${v1}, $${v2} left. Start?`; std = "6.EE.B.7"; steps = `$${correct}.`;
+            } else if (domain === 3) {
+                correct = (v1 * v1 * 3.14).toFixed(2); qText = `Area of circle (r=${v1})`; std = "7.G.B.4"; steps = `${correct}.`;
+            } else {
+                correct = (1 / v1).toFixed(2); qText = `Prob. of 1 out of ${v1} items.`; std = "7.SP.C.5"; steps = `${correct}.`;
+            }
+        }
+
+        let targetVal = needsDecimal ? parseFloat(correct).toFixed(2) : Math.round(correct).toString();
+        let rawOpts = [correct, (parseFloat(correct)+2.5), (parseFloat(correct)-1.1), (parseFloat(correct)*1.15)];
+        let formattedOpts = rawOpts.map(o => needsDecimal ? parseFloat(o).toFixed(2) : Math.round(o).toString()).sort(() => Math.random() - 0.5);
+
+        return { q: qText, opts: formattedOpts, ans: formattedOpts.indexOf(targetVal), std: std, steps: steps };
+    }
+
+    function render(type) {
+        let s = state[type];
+        if (s.count >= 20) {
+            document.getElementById(`overlay-${type}`).style.display = 'flex';
+            document.getElementById(`score-${type}`).innerText = Math.round((s.score / 20) * 100) + "%";
+            return;
+        }
+        s.current = generateProblem(type);
+        s.selected = null; s.usedHint = false;
+        document.getElementById(`exp-${type}`).style.display = 'none';
+        document.getElementById(`exp-${type}`).innerHTML = `<b>Std ${s.current.std}:</b> ${s.current.steps} <br><i style="color:red">Hint used. No points.</i>`;
+        document.getElementById(`card-${type}`).innerHTML = `<p>${s.current.q}</p><div class="options">` +
+            s.current.opts.map((o, idx) => `<button class="opt-btn" id="${type}-${idx}" onclick="sel('${type}',${idx})">${o}</button>`).join('') + `</div>`;
+        updateScoreboard(type);
+    }
+
+    function sel(type, idx) {
+        state[type].selected = idx;
+        document.querySelectorAll(`#col-${type} .opt-btn`).forEach(b => b.classList.remove('selected'));
+        document.getElementById(`${type}-${idx}`).classList.add('selected');
+    }
+
+    function updateScoreboard(type) {
+        let s = state[type];
+        let pct = s.count === 0 ? 0 : Math.round((s.score / s.count) * 100);
+        document.getElementById(`sb-${type}`).innerText = `${s.score}/${s.count} Correct - ${pct}% Understanding`;
+    }
+
+    function submitAns(type) {
+        let s = state[type];
+        if (s.selected === null) return alert("Select answer!");
+        if (s.selected === s.current.ans && !s.usedHint) {
+            s.score++; triggerFirework(type);
+        }
+        s.count++; updateScoreboard(type); render(type);
+    }
+
+    function triggerFirework(type) {
+        let fw = document.getElementById(`fw-${type}`); fw.style.display = 'block';
+        setTimeout(() => { fw.style.display = 'none'; }, 600);
+    }
+
+    function toggleExp(type) {
+        state[type].usedHint = true; let e = document.getElementById(`exp-${type}`);
+        e.style.display = (e.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function resetCol(type) {
+        state[type] = { count: 0, score: 0, current: null, selected: null, usedHint: false };
+        document.getElementById(`overlay-${type}`).style.display = 'none'; render(type);
+    }
+
+    window.onload = () => { render('i'); render('m'); };
+</script>
+</body>
+</html>
